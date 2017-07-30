@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,10 +13,15 @@ public class TaskList {
 
     private final AtomicInteger counter = new AtomicInteger();
 
-    public Task add(NewTask newTask){
-        Task created = new Task(generateId(), newTask.getContent());
-        tasks.add(created);
-        return created;
+    public void add(Task newTask){
+        newTask.setId(generateId());
+        tasks.add(newTask);
+    }
+    public void remove(int index){
+        tasks.remove(index);
+    }
+    public void remove(Task task){
+        tasks.remove(task);
     }
 
     private int generateId() {

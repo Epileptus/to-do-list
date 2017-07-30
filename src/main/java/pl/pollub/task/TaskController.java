@@ -21,8 +21,9 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody Task addTask(@RequestBody NewTask newTask) {
-        return taskList.add(newTask);
+    public @ResponseBody Task addTask(@RequestBody Task newTask) {
+        taskList.add(newTask);
+        return newTask;
     }
 
     @RequestMapping(method = RequestMethod.GET)
