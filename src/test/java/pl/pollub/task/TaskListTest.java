@@ -67,6 +67,7 @@ public class TaskListTest {
     public void ICanFinishATask() throws Exception{
         Task task = new Task();
         Employee Kuba = new Employee();
+        System.out.println(Kuba);
         task.addWorker(Kuba);
         task.finish();
         assertTrue(task.isDone());
