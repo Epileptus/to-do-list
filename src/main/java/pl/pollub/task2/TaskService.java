@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class TaskService {
 
     private final UserService userService;
@@ -17,6 +16,14 @@ public class TaskService {
 
     private final AtomicInteger counter = new AtomicInteger();
 
+    private final TaskSummariser taskSummariser;
+
+    public TaskService(UserService userService, EmailNotifier emailNotifier, TaskSummariser taskSummariser) {
+        this.userService = userService;
+        this.emailNotifier = emailNotifier;
+        this.taskSummariser = taskSummariser;
+    }
+
     public Task createTaskForUser(int userId, Integer... contributors){
         Task task = new Task(counter.incrementAndGet(), userId,
                              contributors != null ? Arrays.asList(contributors) : Collections.emptyList());
@@ -26,15 +33,7 @@ public class TaskService {
 
     public void completeTask(int taskId){
         Task task = tasks.get(taskId);
-        List<Integer> userIds = new ArrayList(task.getContributors());
-        userIds.add(task.getUserId());
-
-        Set<String> emails = userIds.stream()
-                                    .map(userService::getUserById)
-                                    .map(User::getEmail)
-                                    .collect(Collectors.toSet());
-
-        emailNotifier.notify(taskId, emails);
+        taskSummariser.addFinishedTask(task);
     }
 
 }

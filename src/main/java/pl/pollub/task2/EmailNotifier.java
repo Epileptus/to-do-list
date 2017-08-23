@@ -2,8 +2,13 @@ package pl.pollub.task2;
 
 import java.util.Collection;
 
-public interface EmailNotifier {
+public class EmailNotifier implements Notifier{
 
-    void notify(int taskId, Collection<String> emails);
+    public void notify(Task task){
+        //notify
+    }
+    public void notify(User user){
+        //notify
+    }
 
 }
