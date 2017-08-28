@@ -35,13 +35,15 @@ public class TaskSummariser {
 
         List<Integer> userIds = new ArrayList<>(task.getContributors());
         for(int id : userIds){
-            for(int notify : userService.getUserById(id).getPreferredNotify()){
-                Notifier notifier = NotifierFactory.createNotifier(notify);
-                notifier.notify(userService.getUserById(id));
-            }
-
+        for(int notify : userService.getUserById(id).getPreferredNotify()){
+            NotifierFactory.createNotifier(notify).notify(userService.getUserById(id));
         }
     }
+
+    AbstractCommsFactory commsFactory = AbstractCommsFactory.createFactory(new User(1));
+        commsFactory.createNotifier().notify(task);
+
+}
     public void printTaskAndDate(int index){
         System.out.println("Task "+finishedTasks.get(index)+"finished on "+dates.get(index));
     }
